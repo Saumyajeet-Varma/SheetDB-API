@@ -1,6 +1,5 @@
 import express from "express";
 import authRouter from "./routes/auth.route.js"
-import tenantRouter from "./routes/tenant.route.js"
 import excelRouter from "./routes/excel.route.js"
 
 const app = express();
@@ -8,7 +7,6 @@ const app = express();
 app.use(express.json())
 
 app.use("/auth", authRouter)
-app.use("/tenant", tenantRouter)
 app.use("/excel", excelRouter)
 
 app.get("/health", (req, res) => {

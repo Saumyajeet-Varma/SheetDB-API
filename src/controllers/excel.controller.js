@@ -4,7 +4,7 @@ export const uploadExcelController = async (req, res) => {
 
     try {
         const file = req.file
-        const tenantDb = req.tenantDb
+        const userDb = req.userDb
 
         if (!file) {
             res.status(400).json({
@@ -13,7 +13,7 @@ export const uploadExcelController = async (req, res) => {
             })
         }
 
-        const table = await processExcelFile(file.buffer, tenantDb)
+        const table = await processExcelFile(file.buffer, userDb)
 
         res.status(200).json({
             success: true,

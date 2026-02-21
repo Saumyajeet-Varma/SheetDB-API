@@ -3,7 +3,7 @@ import { loginUserService, registerUserService } from "../services/auth.service.
 export const registerUser = async (req, res) => {
 
     try {
-        const { name, email, password, tenantId } = req.body
+        const { name, email, password } = req.body
 
         if (!name || !email || !password) {
             return res.status(400).json({
@@ -12,18 +12,19 @@ export const registerUser = async (req, res) => {
             })
         }
 
-        const user = registerUserService(name, email, password, tenantId)
+        const token = await registerUserService(name, email, password)
 
-        if (!user) {
+        if (!token) {
             return res.status(500).json({
                 success: false,
                 message: "User cant be registered, try again"
             })
         }
 
-        res.status(201).json({
+        return res.status(201).json({
             success: true,
-            message: "user registered successfully"
+            message: "User registered successfully",
+            data: { token }
         })
     }
     catch (err) {
@@ -47,7 +48,7 @@ export const loginUser = async (req, res) => {
             })
         }
 
-        const token = loginUserService(email, password)
+        const token = await loginUserService(email, password)
 
         res.status(200).json({
             success: true,

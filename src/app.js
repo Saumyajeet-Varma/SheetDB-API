@@ -1,13 +1,15 @@
 import express from "express";
-import authRouter from "./routes/auth.route.js"
-import excelRouter from "./routes/excel.route.js"
+import authRoute from "./routes/auth.route.js"
+import excelRoute from "./routes/excel.route.js"
+import tableRoute from "./routes/table.route.js"
 
 const app = express();
 
 app.use(express.json())
 
-app.use("/auth", authRouter)
-app.use("/excel", excelRouter)
+app.use("/auth", authRoute)
+app.use("/excel", excelRoute)
+app.use("/table", tableRoute)
 
 app.get("/health", (req, res) => {
     res.send("Server is Alive !!")

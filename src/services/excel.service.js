@@ -17,10 +17,16 @@ export const processExcelFile = async (fileBuffer, userDb) => {
             continue;
         }
 
-        const columnDefinitions = ["id INT AUTO_INCREMENT PRIMARY KEY"]
+        const columnDefinitions = ["_id INT AUTO_INCREMENT PRIMARY KEY"]
 
         columns.forEach((col) => {
+
             const safeCol = col.toString().toLowerCase().replace(/\s+/g, "_").replace(/[^a-z0-9_]/g, "");
+
+            if (safeCol === "_id") {
+                safeCol = "excel_id"
+            }
+
             columnDefinitions.push(`\`${safeCol}\` VARCHAR(255)`);
         })
 
@@ -45,7 +51,7 @@ export const processExcelFile = async (fileBuffer, userDb) => {
             }
         });
 
-        if (dataRows > 0) {
+        if (dataRows.length > 0) {
 
             const placeholders = columns.map(() => "?").join(",")
             const safeColumns = columns.map((col) => `\`${col.toString().toLowerCase().replace(/\s+/g, "_").replace(/[^a-z0-9_]/g, "")}\``).join(",");
